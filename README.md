@@ -42,11 +42,11 @@ bond, with maturities from 2 to 10 years.
 
 **Dashboard — Portfolio Summary, Holdings, Stress Test & VaR:**
 
-![Dashboard Summary](docs/dashboard_summary.png)
+![Dashboard Summary](docs/dashboard_summary.jpg)
 
 **Dashboard — Factor Risk Attribution Chart:**
 
-![Factor Risk Attribution](docs/factor_attribution_chart.png)
+![Factor Risk Attribution](docs/factor_attribution_chart.jpg)
 
 The dashboard runs locally via FastAPI, pulling live Treasury and credit
 spread data from FRED at startup and rendering all risk metrics through a
