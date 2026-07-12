@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fixed Income Portfolio Risk Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>Fixed Income Portfolio Risk & Construction Tool</h1>
+        <p>Live risk analytics for a synthetic multi-bond portfolio</p>
+    </header>
+
+    <section class="summary-cards">
+        <div class="card">
+            <h3>Total Market Value</h3>
+            <p class="big-number">${{ "{:,.2f}".format(total_market_value) }}</p>
+        </div>
+        <div class="card">
+            <h3>Weighted Duration</h3>
+            <p class="big-number">{{ "%.2f"|format(weighted_duration) }} yrs</p>
+        </div>
+        <div class="card">
+            <h3>Weighted Convexity</h3>
+            <p class="big-number">{{ "%.2f"|format(weighted_convexity) }}</p>
+        </div>
+        <div class="card">
+            <h3>DV01</h3>
+            <p class="big-number">${{ "{:,.2f}".format(dv01) }}</p>
+        </div>
+    </section>
+
+    <section class="holdings">
+        <h2>Portfolio Holdings</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bond Name</th>
+                    <th>Price ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bond in holdings_values %}
+                <tr>
+                    <td>{{ bond.name }}</td>
+                    <td>${{ "{:,.2f}".format(bond.price) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="risk-metrics">
+        <h2>Stress Test — Moderate Scenario (50bps Parallel Shock)</h2>
+        <p>Base Value: <strong>${{ "{:,.2f}".format(moderate.base_value) }}</strong></p>
+        <p>Shocked Value: <strong>${{ "{:,.2f}".format(moderate.shocked_value) }}</strong></p>
+        <p class="{{ 'loss' if moderate.pnl < 0 else 'gain' }}">
+            P&L: ${{ "{:,.2f}".format(moderate.pnl) }} ({{ "%.2f"|format(moderate.pnl_pct * 100) }}%)
+        </p>
+    </section>
+
+    <section class="risk-metrics">
+        <h2>Historical Simulation — 99% VaR / Expected Shortfall</h2>
+        <p class="loss">99% VaR: ${{ "{:,.2f}".format(hist_var) }}</p>
+        <p class="loss">99% Expected Shortfall: ${{ "{:,.2f}".format(hist_es) }}</p>
+    </section>
+
+    <section class="factor-chart">
+        <h2>Factor Risk Attribution</h2>
+        {{ factor_chart_html | safe }}
+    </section>
+
+    <footer>
+        <p>Fixed Income Portfolio Risk & Construction Tool — Built with Python, FastAPI, and Plotly</p>
+    </footer>
+
+</body>
+</html>

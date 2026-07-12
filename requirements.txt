@@ -1,0 +1,13 @@
+numpy
+pandas
+scipy
+matplotlib
+yfinance
+fredapi
+fastapi
+uvicorn
+pytest
+jupyter
+python-dotenv
+jinja2
+plotly
